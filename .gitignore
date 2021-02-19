@@ -1,0 +1,5 @@
+/release/
+/drone-hue*
+
+coverage.out
+.drone.yml
