@@ -1,5 +1,6 @@
 /release/
 /drone-hue*
+cmd/drone-hue/drone-hue
 
 coverage.out
 .drone.yml

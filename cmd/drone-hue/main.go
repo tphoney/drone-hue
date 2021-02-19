@@ -10,14 +10,14 @@ package main
 import (
 	"os"
 
+	"github.com/drone-plugins/drone-hue/plugin"
 	"github.com/drone-plugins/drone-plugin-lib/errors"
 	"github.com/drone-plugins/drone-plugin-lib/urfave"
 	"github.com/joho/godotenv"
 	"github.com/urfave/cli/v2"
-	"github.com/drone-plugins/drone-hue/plugin"
 )
 
-var version = "unknown"
+var version = "0.1"
 
 func main() {
 	settings := &plugin.Settings{}
