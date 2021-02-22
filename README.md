@@ -1,6 +1,20 @@
-A plugin to get notifications via your lightbulbs.
+# drone-hue
 
-# Building
+A plugin to get notifications via your light bulbs.
+
+## Usage
+
+There are a few parameters used by the plugin that changes its behavior.
+
+* PLUGIN_HUB_IP **(required)** IP address of the philips hue hub
+* PLUGIN_HUB_TOKEN **(required)** IP address of the philips hue hub
+* PLUGIN_TARGET_TYPE (optional) whether or not you want to target a bulb or a light or bulbs. Valid values are (lights, groups) defaults to groups
+* PLUGIN_TARGET (optional) the id of the target. defaults to 0
+* PLUGIN_PAYLOAD (optional) what you want the bulb to do. defaults to `{"alert":"lselect"}` which sets the bulbs to flash for 15 seconds
+
+For more information on how to setup your philips hub look [here](https://developers.meethue.com/develop/get-started-2/) and for further information about the philips api [here](https://developers.meethue.com/develop/hue-api/groupds-api/)
+
+## Building
 
 Build the plugin binary:
 
@@ -14,7 +28,7 @@ Build the plugin image:
 docker build -t tphoney/drone-hue -f docker/Dockerfile .
 ```
 
-# Testing
+## Testing
 
 Execute the plugin from your current working directory:
 

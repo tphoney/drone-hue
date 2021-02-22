@@ -7,6 +7,7 @@ package plugin
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -21,40 +22,69 @@ type Args struct {
 	// Level defines the plugin log level.
 	Level string `envconfig:"PLUGIN_LOG_LEVEL"`
 
-	// TODO replace or remove
-	Param1 string `envconfig:"PLUGIN_PARAM1"`
-	Param2 string `envconfig:"PLUGIN_PARAM2"`
+	HubIP      string `envconfig:"PLUGIN_HUB_IP"`
+	HubToken   string `envconfig:"PLUGIN_HUB_TOKEN"`
+	TargetType string `envconfig:"PLUGIN_TARGET_TYPE"`
+	Target     string `envconfig:"PLUGIN_TARGET"`
+	Payload    string `envconfig:"PLUGIN_PAYLOAD"`
+}
+
+// ValidateAndSetArgs checks parameters are set and gives default values for optional.
+func ValidateAndSetArgs(args Args) (validatedArgs Args, err error) {
+	if args.HubIP == "" || args.HubToken == "" {
+		err = errors.New("PLUGIN_HUB_IP and PLUGIN_HUB_TOKEN must be set")
+	}
+	if args.TargetType == "" {
+		args.TargetType = "groups"
+	}
+	if args.Target == "" {
+		args.Target = "0"
+	}
+	if args.Payload == "" {
+		args.Payload = `{"alert":"lselect"}`
+	}
+	validatedArgs = args
+	return args, err
 }
 
 // Exec executes the plugin.
 func Exec(ctx context.Context, args Args) error {
 	// write code here
-	logrus.Infoln("starting ...")
+	logrus.Debugln("Starting ...")
+	args, err := ValidateAndSetArgs(args)
+	if err != nil {
+		logrus.Errorln("Wrong parameters passed.")
+		return err
+	}
+
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	client := &http.Client{Transport: tr}
 
 	body := strings.NewReader(
-		`{"alert":"lselect"}`)
+		args.Payload)
 	request, err := http.NewRequest(
 		http.MethodPut,
-		"https://192.168.0.115/api/zpSMgrRfIA-JC8BQQrqGquobI-SsT0v7hsm5gV7R/groups/5/action",
+		"https://"+args.HubIP+"/api/"+args.HubToken+"/"+args.TargetType+"/"+args.Target+"/action",
 		body,
 	)
 	if err != nil {
-		logrus.Errorf("something went wrong building the request %v", err)
+		logrus.Errorln("Something went wrong building the request.")
+		return err
 	}
 
 	response, err := client.Do(request)
 	if err != nil {
-		logrus.Errorf("something went wrong making the request %v", err)
+		logrus.Errorf("Something went wrong making the request.")
+		return err
 	}
 	respBody, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		logrus.Errorf("something went wrong reading the response %v", err)
+		logrus.Errorf("Something went wrong reading the response.")
+		return err
 	}
-	logrus.Infof("response %v", string(respBody))
+	logrus.Debugf("response %s", string(respBody))
 
 	return nil
 }
