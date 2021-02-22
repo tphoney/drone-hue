@@ -1,9 +1,10 @@
-FROM plugins/base:multiarch
+FROM alpine:3.6 as alpine
+RUN apk add -U --no-cache ca-certificates
 
-LABEL maintainer="Drone.IO Community <drone-dev@googlegroups.com>" \
-  org.label-schema.name="drone hue" \
-  org.label-schema.vendor="Drone.IO Community" \
-  org.label-schema.schema-version="1.0"
+FROM alpine:3.6
+ENV GODEBUG netdns=go
 
-ADD release/linux/arm/drone-hue /bin/
-ENTRYPOINT [ "/bin/drone-hue" ]
+COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+ADD release/linux/arm/plugin /bin/
+ENTRYPOINT ["/bin/plugin"]

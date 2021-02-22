@@ -1,26 +1,29 @@
-// Copyright (c) 2020, the Drone Plugins project authors.
-// Please see the AUTHORS file for details. All rights reserved.
-// Use of this source code is governed by an Apache 2.0 license that can be
-// found in the LICENSE file.
+// Copyright 2020 the Drone Authors. All rights reserved.
+// Use of this source code is governed by the Blue Oak Model License
+// that can be found in the LICENSE file.
 
 package plugin
 
 import (
-	"github.com/drone-plugins/drone-plugin-lib/drone"
+	"context"
+	"fmt"
 )
 
-// Plugin implements drone.Plugin to provide the plugin implementation.
-type Plugin struct {
-	settings Settings
-	pipeline drone.Pipeline
-	network  drone.Network
+// Args provides plugin execution arguments.
+type Args struct {
+	Pipeline
+
+	// Level defines the plugin log level.
+	Level string `envconfig:"PLUGIN_LOG_LEVEL"`
+
+	// TODO replace or remove
+	Param1 string `envconfig:"PLUGIN_PARAM1"`
+	Param2 string `envconfig:"PLUGIN_PARAM2"`
 }
 
-// New initializes a plugin from the given Settings, Pipeline, and Network.
-func New(settings Settings, pipeline drone.Pipeline, network drone.Network) drone.Plugin {
-	return &Plugin{
-		settings: settings,
-		pipeline: pipeline,
-		network:  network,
-	}
+// Exec executes the plugin.
+func Exec(ctx context.Context, args Args) error {
+	// write code here
+	fmt.Printf("monkey")
+	return nil
 }
