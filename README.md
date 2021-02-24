@@ -1,6 +1,6 @@
 # drone-hue
 
-A plugin to get notifications via your light bulbs.
+A plugin to get notifications via your light bulbs. So when your build fails you will literally get warning lights, and if it passes you can party to the disco!
 
 ## Usage
 
