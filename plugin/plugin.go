@@ -33,7 +33,7 @@ type Args struct {
 // ValidateAndSetArgs checks parameters are set and gives default values for optional.
 func ValidateAndSetArgs(args Args) (validatedArgs Args, err error) {
 	if args.HubIP == "" || args.HubToken == "" {
-		err = errors.New("hub_ip and hub_token must be set in settings.")
+		err = errors.New("hub_ip and hub_token must be set in settings")
 	}
 	if args.TargetType == "" {
 		args.TargetType = "groups"
