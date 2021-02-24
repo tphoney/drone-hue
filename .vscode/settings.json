@@ -3,5 +3,8 @@
         "debugf",
         "debugln",
         "errorln"
+    ],
+    "cSpell.words": [
+        "lselect"
     ]
 }
