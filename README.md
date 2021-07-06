@@ -40,7 +40,7 @@ steps:
     - failure
 ```
 
-NB The `when` clause means this step will run even if other steps fail, otherwise we would not run the `drone_hue` step.
+NB The `when` clause is standard drone syntax `https://docs.drone.io/pipeline/conditions/` means this step will run even if other steps fail, otherwise we would not run the `drone_hue` step.
 
 For more information on how to setup your philips hub look [here](https://developers.meethue.com/develop/get-started-2/) and for further information about the philips api [here](https://developers.meethue.com/develop/hue-api/groupds-api/)
 
