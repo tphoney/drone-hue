@@ -72,3 +72,4 @@ docker run --rm -e PLUGIN_HUB_IP=192.168.0.115 -e PLUGIN_HUB_TOKEN=zpSMgrRfIA-JC
   -v $(pwd):/drone/src \
   tphoney/drone-hue
 ```
+
